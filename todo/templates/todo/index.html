@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"
+    />
+    <style>
+      body {
+        font-family: "Oswald", "Futura", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-800 text-white">
+    <div class="container mx-auto mt-10">
+      <div class="max-w-md mx-auto bg-beige p-6 rounded-md shadow-md">
+        <h2 class="text-xl text-center mb-4">TASK LIST</h2>
+        <form action="{% url 'add' %}" method="POST" role="form">
+          {% csrf_token %}
+          <div class="flex text-black mx-1">
+            {{ form.text }}
+            <button
+              type="submit"
+              class="ml-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+            >
+              ADD
+            </button>
+          </div>
+        </form>
+        <div class="flex justify-between mt-4">
+          <a href="{% url 'deletecomplete' %}">
+            <button
+              class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+            >
+              DELETE COMPLETED
+            </button>
+          </a>
+          <a href="{% url 'deleteall' %}">
+            <button
+              class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+            >
+              DELETE ALL
+            </button>
+          </a>
+        </div>
+        <ul class="mt-4">
+          {% for todo in todo_list %} {% if todo.complete %}
+          <li class="bg-gray-600 p-2 rounded line-through">{{ todo.text }}</li>
+          {% else %}
+          <a href="{% url 'complete' todo.id %}">
+            <li class="bg-gray-700 p-2 rounded hover:bg-gray-600">
+              {{ todo.text }}
+            </li>
+          </a>
+          {% endif %} {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
