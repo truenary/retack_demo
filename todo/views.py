@@ -40,7 +40,11 @@ def completeTodo(request, todo_id):
         todo.save()
         # Trying to call a method on a None object
         none_object = None
-        none_object.some_method()
+		if none_object is not None:
+				none_object.some_method()
+			else:
+				# Handle the None case appropriately
+				pass
         return redirect('index')
     except Exception as e:
         report_error(e, "completeTodo", request)
