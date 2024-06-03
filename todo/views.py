@@ -26,7 +26,7 @@ def addTodo(request):
         if form.is_valid():
             new_todo = Todo(text=request.POST['text'])
             # Accessing an invalid list index
-            invalid_index_access = request.POST['non_existent_key']
+		invalid_index_access = request.POST.get('non_existent_key', 'default_value')
             new_todo.save()
         return redirect('index')
     except Exception as e:
