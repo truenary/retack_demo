@@ -27,7 +27,7 @@ def addTodo(request):
         if form.is_valid():
             new_todo = Todo(text=request.POST['text'])
             new_todo.save()
-        return redirect('index')
+		return redirect('completeTodo')
     except Exception as e:
         report_error(e, "addTodo", request)
         return redirect('error_page') 
@@ -37,7 +37,7 @@ def completeTodo(request, todo_id):
         todo = Todo.objects.get(pk=todo_id)
         todo.complete = 2
         todo.save()
-        return redirect('index')
+	return redirect('completeTodo')
     except Exception as e:
         report_error(e, "completeTodo", request)
         return redirect('error_page') 
@@ -45,7 +45,7 @@ def completeTodo(request, todo_id):
 def deleteCompleted(request):
     try:
         Todo.objects.filter(complete__exact=True).delete()
-        return redirect('index')
+	return redirect('completeTodo')
     except Exception as e:
         report_error(e, "deleteCompleted", request)
         return redirect('error_page') 
@@ -53,7 +53,7 @@ def deleteCompleted(request):
 def deleteAll(request):
     try:
         Todo.objects.all().delete()
-        return redirect('index')
+	return redirect('completeTodo')
     except Exception as e:
         report_error(e, "deleteAll", request)
         return redirect('error_page') 
