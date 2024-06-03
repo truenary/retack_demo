@@ -14,7 +14,7 @@ def index(request):
         todo_list = Todo.objects.order_by('id')
         form = TodoForm()
         context = {'todo_list': todo_list, 'form': form}
-        return render(request, 'todo/index1.html', context)
+        return render(request, 'todo/index.html', context)
     except Exception as e:
         report_error(e, "index", request)
 
@@ -35,9 +35,9 @@ def addTodo(request):
 def completeTodo(request, todo_id):
     try:
         todo = Todo.objects.get(pk=todo_id)
-        todo.complete = 2
+        todo.complete = True
         todo.save()
-        return redirect('index')
+        return redirect('completeTodowrong')
     except Exception as e:
         report_error(e, "completeTodo", request)
         return redirect('error_page') 
