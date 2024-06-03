@@ -4,8 +4,9 @@ from .models import Todo
 from .forms import TodoForm
 from retackAI_sdk import retack_client
 
+
 # Initialize RetackConfig and RetackClient
-retack_config = retack_client.RetackConfig(api_key="8z-pAYWDQSJSD1Z5ncfCVcVq")
+retack_config = retack_client.RetackConfig(api_key="jl5Z9RrXiINYlDpZkDM2vGwO")
 retack_client_instance = retack_client.RetackClient(retack_config)
 
 def index(request):
@@ -24,6 +25,8 @@ def addTodo(request):
         form = TodoForm(request.POST)
         if form.is_valid():
             new_todo = Todo(text=request.POST['text'])
+            # Accessing an invalid list index
+            invalid_index_access = request.POST['non_existent_key']
             new_todo.save()
         return redirect('index')
     except Exception as e:
@@ -35,10 +38,14 @@ def completeTodo(request, todo_id):
         todo = Todo.objects.get(pk=todo_id)
         todo.complete = True
         todo.save()
+        # Trying to call a method on a None object
+        none_object = None
+        none_object.some_method()
         return redirect('index')
     except Exception as e:
         report_error(e, "completeTodo", request)
         return redirect('error_page') 
+
 
 def deleteCompleted(request):
     try:
@@ -66,3 +73,5 @@ def report_error(exception, view_name, request):
         )
     )
     retack_client_instance.report_error(error_report)
+
+
