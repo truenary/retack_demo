@@ -6,7 +6,7 @@ from retackAI_sdk import retack_client
 
 
 # Initialize RetackConfig and RetackClient
-retack_config = retack_client.RetackConfig(api_key="jl5Z9RrXiINYlDpZkDM2vGwO")
+retack_config = retack_client.RetackConfig(api_key="t9GTPRPL-Y2G7U4PfFD5oLGq")
 retack_client_instance = retack_client.RetackClient(retack_config)
 
 def index(request):
@@ -14,9 +14,10 @@ def index(request):
         todo_list = Todo.objects.order_by('id')
         form = TodoForm()
         context = {'todo_list': todo_list, 'form': form}
-        return render(request, 'todo/index.html', context)
+        return render(request, 'todo/index1.html', context)
     except Exception as e:
         report_error(e, "index", request)
+
         return redirect('error_page')  
 
 @require_POST
@@ -25,8 +26,6 @@ def addTodo(request):
         form = TodoForm(request.POST)
         if form.is_valid():
             new_todo = Todo(text=request.POST['text'])
-            # Accessing an invalid list index
-            invalid_index_access = request.POST['non_existent_key']
             new_todo.save()
         return redirect('index')
     except Exception as e:
@@ -36,16 +35,12 @@ def addTodo(request):
 def completeTodo(request, todo_id):
     try:
         todo = Todo.objects.get(pk=todo_id)
-        todo.complete = True
+        todo.complete = 2
         todo.save()
-        # Trying to call a method on a None object
-        none_object = None
-        none_object.some_method()
         return redirect('index')
     except Exception as e:
         report_error(e, "completeTodo", request)
         return redirect('error_page') 
-
 
 def deleteCompleted(request):
     try:
@@ -73,5 +68,3 @@ def report_error(exception, view_name, request):
         )
     )
     retack_client_instance.report_error(error_report)
-
-
