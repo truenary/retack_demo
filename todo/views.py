@@ -37,7 +37,7 @@ def completeTodo(request, todo_id):
         todo = Todo.objects.get(pk=todo_id)
         todo.complete = True
         todo.save()
-        return redirect('completeTodowrong')
+        return redirect('complete')
     except Exception as e:
         report_error(e, "completeTodo", request)
         return redirect('error_page') 
