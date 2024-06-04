@@ -25,7 +25,7 @@ def addTodo(request):
     try:
         form = TodoForm(request.POST)
         if form.is_valid():
-            new_todo = Todo(text=request.POST['text'])
+		new_todo = Todo(text=request.POST.get('text', ''))
             new_todo.save()
         return redirect('index')
     except Exception as e:
