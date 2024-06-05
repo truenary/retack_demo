@@ -16,7 +16,7 @@ def index(request):
         context = {'todo_list': todo_list, 'form': form}
         return render(request, 'todo/index.html', context)
     except Exception as e:
-        report_error(e, "index", request)
+        report_error(e, "index", context)
 
         return redirect('error_page')  
 
